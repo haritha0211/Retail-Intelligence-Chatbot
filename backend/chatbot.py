@@ -8,6 +8,33 @@
 
 
 
+from fastapi import FastAPI, Form, File
+from pydantic import BaseModel
+import requests
+import base64
+from fastapi.middleware.cors import CORSMiddleware
+import spacy # type: ignore
+import uvicorn
+
+app = FastAPI()
+
+# Allow CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust as necessary
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, FastAPI!"}
+
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: str = None):
+#    return {"item_id": item_id, "q": q}
 
 from transformers import pipeline
 # Internet is required for this
@@ -91,3 +118,4 @@ for question in questions:
     print(f"Q: {question}")
     print(f"A: {result['answer']}\n")
     
+uvicorn.run(app, host="0.0.0.0", port=8000)
