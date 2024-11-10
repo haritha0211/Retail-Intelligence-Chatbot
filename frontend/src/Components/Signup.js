@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 const LoginPage = () => {
   const [userType, setUserType] = useState('customer');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [isHovered, setIsHovered] = useState('');
   const [focusedInput, setFocusedInput] = useState('');
 
@@ -205,22 +206,16 @@ const LoginPage = () => {
               <path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword1 ? 'text' : 'password'}
               placeholder="Enter password"
               style={inputStyle(focusedInput === 'password')}
               onFocus={() => setFocusedInput('password')}
               onBlur={() => setFocusedInput('')}
             />
-             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Confirm password"
-              style={inputStyle(focusedInput === 'password')}
-              onFocus={() => setFocusedInput('password')}
-              onBlur={() => setFocusedInput('')}
-            />
+             
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword1(!showPassword1)}
               style={{
                 position: 'absolute',
                 right: '16px',
@@ -233,7 +228,49 @@ const LoginPage = () => {
                 padding: '4px',
               }}
             >
-              {showPassword ? (
+              {showPassword1 ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>  
+              )}
+            </button>
+          </div>
+
+          <div style={inputGroupStyle(focusedInput === 'password')}>
+            <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <input
+              type={showPassword2 ? 'text' : 'password'}
+              placeholder="Confirm password"
+              style={inputStyle(focusedInput === 'password')}
+              onFocus={() => setFocusedInput('password')}
+              onBlur={() => setFocusedInput('')}
+            />
+             
+            <button
+              type="button"
+              onClick={() => setShowPassword2(!showPassword2)}
+              style={{
+                position: 'absolute',
+                right: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#6b7280',
+                padding: '4px',
+              }}
+            >
+              {showPassword2 ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
                   <line x1="1" y1="1" x2="23" y2="23" />
@@ -253,7 +290,7 @@ const LoginPage = () => {
             onMouseEnter={() => setIsHovered('submit')}
             onMouseLeave={() => setIsHovered('')}
           >
-            Sign In as {userType === 'customer' ? 'Customer' : 'Organization'}
+            Create Account 
           </button>
 
         
