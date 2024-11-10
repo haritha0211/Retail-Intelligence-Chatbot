@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, ShoppingBag, Mic, Search, User, ShoppingCart, Star, TrendingUp } from 'lucide-react';
-
+import './customer.css';
+// You can use both Tailwind classes and custom classes
 const EcommerceInterface = () => {
   // States for different features
   const [isOpen, setIsOpen] = useState(false);
