@@ -1,0 +1,135 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: url('C:\Users\ADMIN\Desktop\Data1.avif') no-repeat center center fixed;
+    background-size: cover;  /* Image will cover the screen */
+    min-height: 100vh;
+    text-align: center;
+    position: relative;
+  }
+  
+  
+  .dashboard::before {
+    content: ''; /* Create an overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark transparent overlay */
+    z-index: -1; /* Ensure the overlay is behind the content */
+  }
+  
+  .title {
+    font-size: 30px; /* Larger font size for the title */
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 40px; /* Add space below title */
+  }
+  
+  .dashboard-items {
+    display: flex;
+    flex-direction: row; /* Align cards side by side */
+    justify-content: center; /* Center the cards horizontally */
+    gap: 2cm; /* Set a 2cm gap between the cards */
+    width: 100%;
+    max-width: 900px; /* Set a max width for the container */
+  }
+  
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 300px; /* Adjust the width if necessary */
+    text-align: center; /* Center-align text horizontally */
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Shadow for cards */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition for hover effect */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center-align text vertically */
+  }
+  
+  .card:hover {
+    transform: translateY(-10px); /* Slight hover effect */
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2); /* More intense shadow on hover */
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s; /* Button hover effect */
+  }
+  
+  .tabs .active {
+    background-color: #4e54c8;
+    color: white;
+  }
+  
+  .tabs button:hover {
+    background-color: #8f94fb;
+    transform: scale(1.1); /* Slight scale on hover */
+  }
+  
+  .content {
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+  }
+  
+  /* Media Queries for Responsiveness */
+  
+  /* For devices with screen width 768px and smaller (tablets and mobile) */
+  @media (max-width: 768px) {
+    .dashboard {
+      padding: 20px; /* Reduce padding on smaller screens */
+    }
+  
+    .title {
+      font-size: 24px; /* Smaller title font on small screens */
+      margin-bottom: 30px;
+    }
+  
+    .dashboard-items {
+      flex-direction: column; /* Stack the cards vertically */
+      gap: 1cm; /* Reduce the gap between the cards */
+      max-width: 100%; /* Allow the cards to take full width */
+    }
+  
+    .card {
+      width: 280px; /* Smaller width for mobile screens */
+      height: 220px; /* Adjust height for mobile screens */
+    }
+  }
+  
+  /* For devices with screen width 480px and smaller (mobiles) */
+  @media (max-width: 480px) {
+    .title {
+      font-size: 20px; /* Even smaller title font on very small screens */
+      margin-bottom: 20px;
+    }
+  
+    .dashboard-items {
+      flex-direction: column; /* Stack the cards vertically */
+      gap: 0.5cm; /* Reduce the gap between the cards even more */
+    }
+  
+    .card {
+      width: 250px; /* Further reduce width for very small screens */
+      height: 200px; /* Adjust height for very small screens */
+    }
+  }
+  
