@@ -1,12 +1,25 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from pydantic import BaseModel
 from transformers import pipeline
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import speech_recognition as sr
 import tempfile
+
+
 
 # Initialize the app and the pipeline
 app = FastAPI()
 qa_pipeline = pipeline("question-answering")
+
+# Allow CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust as necessary
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define the context for the chatbot
 context = """
@@ -24,6 +37,7 @@ class QuestionRequest(BaseModel):
 @app.post("/ask/text")
 async def ask_question_text(request: QuestionRequest):
     question = request.question
+    print(question)
     try:
         # Use the pipeline to answer the question
         result = qa_pipeline(question=question, context=context)
@@ -56,4 +70,3 @@ async def ask_question_audio(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Speech recognition service error: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail="An error occurred while processing the audio question.")
-            

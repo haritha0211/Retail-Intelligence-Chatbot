@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { MessageSquare, X, Send, ShoppingBag, Mic, Search, User, ShoppingCart, Star, TrendingUp } from 'lucide-react';
+import {
+  MessageSquare, X, Send, ShoppingBag, Mic, Search, User, ShoppingCart, Star, TrendingUp
+} from 'lucide-react';
+import './customer.css';
+import axios from "axios";
 
 const EcommerceInterface = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,19 +19,47 @@ const EcommerceInterface = () => {
     }
   ]);
 
+  const apiUrl = "http://127.0.0.1:8000"; // Replace with your FastAPI URL
+
   const products = [
     { id: 1, name: "WORLD WAR 2 GLIDERS ASSTD DESIGNS", description: "Vintage collection of assorted WW2 model gliders", price: "$24.99", rating: 4.5, trending: true, category: "Vintage" },
-    { id: 2, name: "JUMBO BAG RED RETROSPOT", description: "Large capacity retro-styled shopping bag", price: "$19.99", rating: 4.8, trending: true, category: "Bags" },
-    { id: 3, name: "ASSORTED COLOUR BIRD ORNAMENT", description: "Decorative ceramic bird collection", price: "$12.99", rating: 4.3, trending: false, category: "Decor" },
-    { id: 4, name: "POPCORN HOLDER", description: "Vintage-style popcorn container", price: "$9.99", rating: 4.6, trending: true, category: "Kitchen" },
-    { id: 5, name: "PACK OF 72 RETROSPOT CAKE CASES", description: "Retro-designed cupcake liners", price: "$7.99", rating: 4.7, trending: true, category: "Kitchen" }
+    //...other products
   ];
 
+  // Function to send text input to API
+  const askTextQuestion = async (question) => {
+    try {
+      const response = await fetch(`${apiUrl}/ask/text`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      const data = await response.json();
+      setMessages(prevMessages => [...prevMessages, { type: 'bot', content: data.answer }]);
+    } catch (error) {
+      console.error("Error sending text question:", error);
+    }
+  };
+
+  // Function to handle "Enter" key press in the search bar
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      askTextQuestion(searchQuery);
+      setSearchQuery('');  // Clear the input field after sending the question
+    }
+  };
+
+  // Function to handle voice input and send it to the API
   const handleVoiceInput = () => {
     setIsRecording(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsRecording(false);
-      handleChatbotMessage("Show me kitchen products");
+      
+      // Mockup for audio capture; replace with real audio capture for production
+      const simulatedQuestion = "Show me kitchen products"; 
+      
+      // Send simulated question to backend for processing
+      await askTextQuestion(simulatedQuestion);
     }, 2000);
   };
 
@@ -41,15 +73,15 @@ const EcommerceInterface = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-white shadow-md">
+      <nav className="navbar sticky top-0 z-50 bg-white shadow-md">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2 flex-shrink-0">
             <ShoppingBag className="icon" />
-            <span className="text-xl font-bold">RetroShop</span>
+            <span className="text-xl font-bold logo-text">RetroShop</span>
           </div>
 
           {/* Search Bar */}
-          <div className="relative flex-1 max-w-xl mx-4">
+          <div className="relative flex-1 max-w-xl mx-4 search-bar">
             <div className="relative flex items-center">
               <Search className="icon left-icon" />
               <input
@@ -59,6 +91,7 @@ const EcommerceInterface = () => {
                   setSearchQuery(e.target.value);
                   setShowSearchSuggestions(e.target.value.length > 0);
                 }}
+                onKeyDown={handleKeyDown} // Detect "Enter" key press
                 placeholder="Search products..."
                 className="search-input"
               />
@@ -90,7 +123,7 @@ const EcommerceInterface = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 main-content">
         <section>
           <div className="section-title">
             <TrendingUp className="icon" />
