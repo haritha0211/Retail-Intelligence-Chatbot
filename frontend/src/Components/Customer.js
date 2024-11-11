@@ -1,108 +1,128 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MessageSquare, X, Send, ShoppingBag, Mic, Search, User, ShoppingCart, Star, TrendingUp } from 'lucide-react';
-import './customer.css';
-const [text, setText] = useState("");
-  
-    const [response, setResponse] = useState("");
 
-    //api request.
-    
-    const sendRequest = async () => {
-        if (!text) {
-          alert("Please provide text ");
-          return;
-        }
-    
-       
-        const formData = new FormData();
-        formData.append("prompt", text);
-       
-    
-    
-        try {
-          const res = await axios.get(
-            "http://localhost:8000/"
-            // formData,
-            // {
-            //   headers: {
-            //     "Content-Type": "multipart/form-data",
-            //   },
-            // }
-          );
-
-          console.log("Response from backend:", res.data); 
-          setResponse(res.data.response);
-    
-        } catch (error) {
-          console.error("Error sending request:", error); // Add this line
-          alert("Error sending request");
-        }
-      };
 const EcommerceInterface = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([
-    { 
-      id: 1, 
-      type: 'bot', 
+    {
+      id: 1,
+      type: 'bot',
       content: "Hello! I can help you find the perfect product. What are you looking for today?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
 
-  // Filtered products based on searchQuery
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const products = [
+    { id: 1, name: "WORLD WAR 2 GLIDERS ASSTD DESIGNS", description: "Vintage collection of assorted WW2 model gliders", price: "$24.99", rating: 4.5, trending: true, category: "Vintage" },
+    { id: 2, name: "JUMBO BAG RED RETROSPOT", description: "Large capacity retro-styled shopping bag", price: "$19.99", rating: 4.8, trending: true, category: "Bags" },
+    { id: 3, name: "ASSORTED COLOUR BIRD ORNAMENT", description: "Decorative ceramic bird collection", price: "$12.99", rating: 4.3, trending: false, category: "Decor" },
+    { id: 4, name: "POPCORN HOLDER", description: "Vintage-style popcorn container", price: "$9.99", rating: 4.6, trending: true, category: "Kitchen" },
+    { id: 5, name: "PACK OF 72 RETROSPOT CAKE CASES", description: "Retro-designed cupcake liners", price: "$7.99", rating: 4.7, trending: true, category: "Kitchen" }
+  ];
+
+  const handleVoiceInput = () => {
+    setIsRecording(true);
+    setTimeout(() => {
+      setIsRecording(false);
+      handleChatbotMessage("Show me kitchen products");
+    }, 2000);
+  };
+
+  const getSearchSuggestions = (query) => {
+    return products.filter(product =>
+      product.name.toLowerCase().includes(query.toLowerCase()) ||
+      product.category.toLowerCase().includes(query.toLowerCase())
+    );
+  };
 
   return (
-    <div className="min-h-screen p-4 bg-gray-50">
-      {/* Search Bar */}
-      <div className="relative mb-4">
-        <input
-          type="text"
-          className="w-full p-2 border rounded-lg focus:outline-none"
-          placeholder="Search for products..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={() => setShowSearchSuggestions(true)}
-          onBlur={() => setShowSearchSuggestions(false)}
-        />
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-          <Mic className={`mic-button ${isRecording ? 'recording' : ''}`} onClick={() => setIsRecording(!isRecording)} />
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation Bar */}
+      <nav className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <ShoppingBag className="icon" />
+            <span className="text-xl font-bold">RetroShop</span>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative flex-1 max-w-xl mx-4">
+            <div className="relative flex items-center">
+              <Search className="icon left-icon" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSearchSuggestions(e.target.value.length > 0);
+                }}
+                placeholder="Search products..."
+                className="search-input"
+              />
+              <button onClick={handleVoiceInput} className="voice-button">
+                <Mic className={`icon ${isRecording ? 'text-red-500' : 'text-gray-400'}`} />
+              </button>
+            </div>
+
+            {/* Search Suggestions */}
+            {showSearchSuggestions && (
+              <div className="suggestions">
+                {getSearchSuggestions(searchQuery).map(product => (
+                  <div key={product.id} className="suggestion-item">
+                    <div>
+                      <p className="font-medium text-gray-900">{product.name}</p>
+                      <p className="text-sm text-gray-500">{product.category} • {product.price}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="icon-button"><ShoppingCart className="icon" /></button>
+            <button className="icon-button"><User className="icon" /></button>
+          </div>
         </div>
-        {showSearchSuggestions && (
-          <div className="search-suggestions">
-            {filteredProducts.map((product) => (
-              <div key={product.id} className="p-2 hover:bg-gray-100">
-                {product.name}
+      </nav>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <section>
+          <div className="section-title">
+            <TrendingUp className="icon" />
+            <h2>Trending Now</h2>
+          </div>
+          
+          <div className="product-grid">
+            {products.filter(product => product.trending).map(product => (
+              <div key={product.id} className="product-card">
+                <div className="card-content">
+                  <div className="category-tag">{product.category}</div>
+                  <h3 className="product-name">{product.name}</h3>
+                  <p className="product-description">{product.description}</p>
+                  <div className="card-footer">
+                    <span className="product-price">{product.price}</span>
+                    <div className="rating">
+                      <Star className="icon star-icon" />
+                      <span>{product.rating}</span>
+                    </div>
+                  </div>
+                  <button className="add-to-cart-button">
+                    <ShoppingCart className="icon" />
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             ))}
           </div>
-        )}
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold">{product.name}</h2>
-              <p className="text-gray-600">{product.price}</p>
-              <div className="flex items-center gap-2">
-                {[...Array(Math.round(product.rating))].map((_, i) => (
-                  <Star key={i} className="text-yellow-400" />
-                ))}
-                <span className="text-gray-400 text-sm">({product.rating})</span>
-                {product.trending && <TrendingUp className="text-red-500" />}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+        </section>
+      </main>
     </div>
   );
 };
+
+export default EcommerceInterface;
