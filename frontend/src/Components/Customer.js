@@ -3,14 +3,11 @@ import {
   MessageSquare, X, Send, ShoppingBag, Mic, Search, User, ShoppingCart, Star, TrendingUp
 } from 'lucide-react';
 import './customer.css';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const EcommerceInterface = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
-  const navigate = useNavigate();
-
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -20,6 +17,8 @@ const EcommerceInterface = () => {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
+  const [ loading , setLoading ] = useState(0) ; 
+  const [product , setProduct] = useState(null) ; 
 
   const apiUrl = "http://127.0.0.1:8000"; // Replace with your FastAPI URL
 
@@ -30,6 +29,7 @@ const EcommerceInterface = () => {
 
   // Function to send text input to API
   const askTextQuestion = async (question) => {
+    setLoading(1) ; 
     try {
       const response = await fetch(`${apiUrl}/ask/text`, {
         method: "POST",
@@ -37,6 +37,11 @@ const EcommerceInterface = () => {
         body: JSON.stringify({ question })
       });
       const data = await response.json();
+      setLoading(2) ; 
+
+      console.log("data from backend : ",data);
+      setProduct(data) ; 
+
       setMessages(prevMessages => [...prevMessages, { type: 'bot', content: data.answer }]);
     } catch (error) {
       console.error("Error sending text question:", error);
@@ -83,7 +88,7 @@ const EcommerceInterface = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="relative flex-1 max-w-xl mx-4 search-bar">
+          <div className="search_bar">
             <div className="relative flex items-center">
               <Search className="icon left-icon" />
               <input
@@ -101,9 +106,9 @@ const EcommerceInterface = () => {
                 <Mic className={`icon ${isRecording ? 'text-red-500' : 'text-gray-400'}`} />
               </button>
             </div>
-
+            
             {/* Search Suggestions */}
-            {showSearchSuggestions && (
+            {/* {showSearchSuggestions && (
               <div className="suggestions">
                 {getSearchSuggestions(searchQuery).map(product => (
                   <div key={product.id} className="suggestion-item">
@@ -115,7 +120,10 @@ const EcommerceInterface = () => {
                 ))}
               </div>
             )}
-          </div>
+         */}
+            </div>
+            
+
 
           <div className="flex items-center gap-4">
             <button className="icon-button"><ShoppingCart className="icon" /></button>
@@ -125,42 +133,44 @@ const EcommerceInterface = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 main-content">
-        <section>
-          <div className="section-title">
-            <TrendingUp className="icon" />
-            <h2>Trending Now</h2>
-          </div>
-          
-          <div className="product-grid">
-            {products.filter(product => product.trending).map(product => (
-              <div key={product.id} className="product-card">
-                <div className="card-content">
-                  <div className="category-tag">{product.category}</div>
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
-                  <div className="card-footer">
-                    <span className="product-price">{product.price}</span>
-                    <div className="rating">
-                      <Star className="icon star-icon" />
-                      <span>{product.rating}</span>
-                    </div>
-                  </div>
-                  <button className="add-to-cart-button">
-                    <ShoppingCart className="icon" />
-                    Add to Cart
-                  </button>
+      {loading === 0 ? (
+  <main className="container mx-auto px-4 py-8 main-content">
+    <section>
+      <div className="section-title">
+        <TrendingUp className="icon" />
+        <h2>Trending Now</h2>
+      </div>
+      
+      <div className="product-grid">
+        {products.filter(product => product.trending).map(product => (
+          <div key={product.id} className="product-card">
+            <div className="card-content">
+              <div className="category-tag">{product.category}</div>
+              <h3 className="product-name">{product.name}</h3>
+              <p className="product-description">{product.description}</p>
+              <div className="card-footer">
+                <span className="product-price">{product.price}</span>
+                <div className="rating">
+                  <Star className="icon star-icon" />
+                  <span>{product.rating}</span>
                 </div>
               </div>
-            ))}
+              <button className="add-to-cart-button">
+                <ShoppingCart className="icon" />
+                Add to Cart
+              </button>
+            </div>
           </div>
-        </section>
-      </main>
-<div>
-  <button><a href='/login'>Login</a></button>
-  <button ><a href='/signup'>Signup</a></button>
-</div>
+        ))}
+      </div>
+    </section>
+  </main>
+) : loading === 2 && product ? (
+  <h1>{product.question}</h1>
 
+) : null}
+
+     
     </div>
   );
 };
