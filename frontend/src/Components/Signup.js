@@ -1,4 +1,10 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
+=======
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
 
 const LoginPage = () => {
   const [userType, setUserType] = useState('customer');
@@ -7,6 +13,11 @@ const LoginPage = () => {
   const [isHovered, setIsHovered] = useState('');
   const [focusedInput, setFocusedInput] = useState('');
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
   const containerStyle = {
     minHeight: '100vh',
     width: '100%',
@@ -124,6 +135,43 @@ const LoginPage = () => {
     color: '#4f46e5',
   };
 
+<<<<<<< HEAD
+=======
+  // const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+      if(!email || !password){
+        console.log("not");
+      }
+      try {
+        
+        const res = await axios.post('http://localhost:8000/signup', {email, password}, {withCredentials: true });
+        // console.log(email, password);
+          console.log(res);
+          
+          if(res.status === 201){
+            navigate('/login')
+          }
+          else {
+            navigate('login') ;
+          }
+          navigate('/login')
+        } catch (error) {
+          if (error.response) {
+            console.log("Error Data:", error.response.data); // More details
+            console.log("Status Code:", error.response.status);
+          } else {
+            console.log("Error:", error.message);
+          }
+      }
+    };
+
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
   return (
     <div style={containerStyle}>
       <style>
@@ -146,7 +194,11 @@ const LoginPage = () => {
           </p>
         </div>
 
+<<<<<<< HEAD
         <form onSubmit={(e) => e.preventDefault()}>
+=======
+        <form onSubmit={handleSubmit} method='POST'>
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
           <div style={radioContainerStyle}>
             <label 
               style={radioLabelStyle(userType === 'customer')}
@@ -193,6 +245,12 @@ const LoginPage = () => {
             </svg>
             <input
               type="email"
+<<<<<<< HEAD
+=======
+              name='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
               placeholder="Enter your email"
               style={inputStyle(focusedInput === 'email')}
               onFocus={() => setFocusedInput('email')}
@@ -206,6 +264,12 @@ const LoginPage = () => {
               <path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
             <input
+<<<<<<< HEAD
+=======
+              name='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
               type={showPassword1 ? 'text' : 'password'}
               placeholder="Enter password"
               style={inputStyle(focusedInput === 'password')}
@@ -242,7 +306,11 @@ const LoginPage = () => {
             </button>
           </div>
 
+<<<<<<< HEAD
           <div style={inputGroupStyle(focusedInput === 'password')}>
+=======
+          {/* <div style={inputGroupStyle(focusedInput === 'password')}>
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
             <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0110 0v4"/>
@@ -282,7 +350,11 @@ const LoginPage = () => {
                 </svg>  
               )}
             </button>
+<<<<<<< HEAD
           </div>
+=======
+          </div> */}
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
 
           <button
             type="submit"

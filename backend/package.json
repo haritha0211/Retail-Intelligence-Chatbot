@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
+=======
+    "dev": "nodemon index.js",
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
@@ -12,9 +16,18 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+<<<<<<< HEAD
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
+=======
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.8.1",
+    "nodemon": "^3.1.7",
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
     "zod": "^3.23.8"
   }
 }

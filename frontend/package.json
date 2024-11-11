@@ -11,6 +11,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
+=======
+    "axios": "^1.7.7",
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "framer-motion": "^11.11.11",
     "lucide-react": "^0.456.0",
@@ -43,8 +47,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+<<<<<<< HEAD
   },
   "devDependencies": {
     "tailwindcss": "^3.4.14"
+=======
+>>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
   }
 }
