@@ -145,7 +145,8 @@ const LoginPage = () => {
           </p>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={(e) => e.preventDefault()
+                }>
           <div style={radioContainerStyle}>
             <label 
               style={radioLabelStyle(userType === 'customer')}
