@@ -4,11 +4,7 @@
     align-items: center;
     justify-content: center;
     padding: 40px;
-<<<<<<< HEAD
-    background: url('C:\Users\ADMIN\Desktop\Data1.avif') no-repeat center center fixed;
-=======
-    /* background: url('C:\Users\ADMIN\Desktop\Data1.avif') no-repeat center center fixed; */
->>>>>>> d6afe5d4c2cd0e82e8829396b493a7bd043cd5a9
+    background: url('../../public/Data1.avif') no-repeat center center fixed;
     background-size: cover;  /* Image will cover the screen */
     min-height: 100vh;
     text-align: center;

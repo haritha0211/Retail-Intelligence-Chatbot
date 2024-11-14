@@ -92,7 +92,7 @@ const EcommerceInterface = () => {
                   setShowSearchSuggestions(e.target.value.length > 0);
                 }}
                 onKeyDown={handleKeyDown} // Detect "Enter" key press
-                placeholder="Search products..."
+                placeholder="product assistant..."
                 className="search-input"
               />
               <button onClick={handleVoiceInput} className="voice-button">
